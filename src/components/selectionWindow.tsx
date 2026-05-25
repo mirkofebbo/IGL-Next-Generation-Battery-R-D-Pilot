@@ -128,17 +128,20 @@ export default function SelectionWindow({
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
 
             <Stack spacing={2} sx={{ p: 1, borderBottom: "1px solid", borderColor: "divider" }}>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-                    {/* title */}
-                    <Typography variant="h5">Selection Window</Typography>
-                    {/* Optional metadata display */}
-                    {/* <Typography variant="body2" color="text.secondary">
-                        Total Projects: {metaData.total_projects} | Unique Subtopics: {metaData.unique_subtopics} | Unique Host Institutions: {metaData.unique_host_institutions}
-                    </Typography> */}
-                    {/* Showing slection counter */}
-                    <Typography variant="h6" color="text.secondary">
-                        Matching Projects: {filteredProjects.length} / {metaData.total_projects}
-                    </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                    <Box component="img" src="/nesta-logo.png" alt="Nesta" sx={{ height: 80, m: 0, p: 0 }} />
+                    <Box sx={{ display: "flex", flexDirection: "column",}}>
+                        {/* title */}
+                        <Typography variant="h5">Selection Window</Typography>
+                        {/* Optional metadata display */}
+                        {/* <Typography variant="body2" color="text.secondary">
+                            Total Projects: {metaData.total_projects} | Unique Subtopics: {metaData.unique_subtopics} | Unique Host Institutions: {metaData.unique_host_institutions}
+                        </Typography> */}
+                        {/* Showing slection counter */}
+                        <Typography variant="h6" color="text.secondary">
+                            Matching Projects: {filteredProjects.length} / {metaData.total_projects}
+                        </Typography>
+                    </Box>
                 </Box>
 
                 {/* Host Institution Dropdown */}
