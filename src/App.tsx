@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
+import type { Projects, Project } from "./types.tsx";
+
 import useLoadData from "./components/loadData.tsx";
 import PortfolioWindow from "./components/portfolioWindow.tsx";
 import SelectionWindow from "./components/selectionWindow.tsx";
@@ -8,8 +11,14 @@ const CENTER_PANE_WIDTH = "30%";
 const RIGHT_PANE_WIDTH = "30%";
 
 export default function App() {
-  const { data, error, loading } = useLoadData();
+  const { data, error, loading } = useLoadData();  // Loading the project.json fil;e
+  
+  const [selectedProject, setSelectedProject] = useState<Project[] | null>(null);
+  const [portfolio1, setPortfolio1] = useState<Project[] | null>(null);
+  const [portfolio2, setPortfolio2] = useState<Project[] | null>(null);
 
+
+  // Handle loading and error states
   if (loading) return <Box sx={{ p: 2 }}>Loading projects...</Box>;
   if (error) return <Box sx={{ p: 2, color: "error.main" }}>{error}</Box>;
 
