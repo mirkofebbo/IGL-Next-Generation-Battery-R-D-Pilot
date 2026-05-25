@@ -8,7 +8,8 @@ export default function SelectionWindow({
     data, setPortfolio1, setPortfolio2,
     selectedHostInstitution, setSelectedHostInstitution,
     selectedSubtopic, setSelectedSubtopic,
-    riskScoreRange, setRiskScoreRange
+    riskScoreRange, setRiskScoreRange,
+    groupBy, setGroupBy
 }: { 
     data: Project[], 
     setPortfolio1: React.Dispatch<React.SetStateAction<Project[] | null>>, 
@@ -18,11 +19,12 @@ export default function SelectionWindow({
     selectedSubtopic: string,
     setSelectedSubtopic: React.Dispatch<React.SetStateAction<string>>,
     riskScoreRange: number[],
-    setRiskScoreRange: React.Dispatch<React.SetStateAction<number[]>>
+    setRiskScoreRange: React.Dispatch<React.SetStateAction<number[]>>,
+    groupBy: "none" | "institution" | "subtopic" | "risk",
+    setGroupBy: React.Dispatch<React.SetStateAction<"none" | "institution" | "subtopic" | "risk">>
 }) {
     const metaData: ProjectMetaData = getProjectMetaData(data);
 
-    const [groupBy, setGroupBy] = useState<"none" | "institution" | "subtopic" | "risk">("none");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [activeProject, setActiveProject] = useState<Project | null>(null);
 

@@ -7,11 +7,12 @@ import PortfolioMetrics from "./portfolioMetrics";
 
 export default function PortfolioWindow({ 
     id, currency, total_budget_eur, portfolio, setPortfolio,
-    selectedHostInstitution, selectedSubtopic, riskScoreRange 
+    selectedHostInstitution, selectedSubtopic, riskScoreRange, groupBy 
 }: { 
     id: string, currency: string, total_budget_eur: number, 
     portfolio: Project[] | null, setPortfolio: React.Dispatch<React.SetStateAction<Project[] | null>>,
-    selectedHostInstitution: string, selectedSubtopic: string, riskScoreRange: number[]
+    selectedHostInstitution: string, selectedSubtopic: string, riskScoreRange: number[],
+    groupBy: "none" | "institution" | "subtopic" | "risk"
 }) {
 
     if (!portfolio || portfolio.length === 0) {
@@ -70,6 +71,42 @@ export default function PortfolioWindow({
         });
     }, [portfolio, riskScoreRange, selectedHostInstitution, selectedSubtopic]);
 
+    const renderProjectList = () => {
+        if (groupBy === "none" || groupBy === "risk") {
+            const projectsToRender = [...filteredPortfolio];
+            if (groupBy === "risk") {
+                projectsToRender.sort((a, b) => b.risk_score - a.risk_score);
+            }
+            return projectsToRender.map((project) => (
+                <Box key={project.id} onClick={(e) => handleCardClick(e, project)} sx={{ cursor: 'pointer' }}>
+                    <ProjectCard project={project} />
+                </Box>
+            ));
+        }
+
+        const groups: Record<string, Project[]> = {};
+        for (const project of filteredPortfolio) {
+            const key = groupBy === "institution" ? project.host_institution : project.subtopic;
+            if (!groups[key]) groups[key] = [];
+            groups[key].push(project);
+        }
+
+        return Object.keys(groups).sort().map((groupKey) => (
+            <Box key={groupKey} sx={{ mb: 2 }}>
+                <Typography variant="h6" sx={{ mb: 1, color: "text.primary", fontWeight: 'bold' }}>
+                    {groupKey} ({groups[groupKey].length})
+                </Typography>
+                <Stack spacing={2}>
+                    {groups[groupKey].map((project) => (
+                        <Box key={project.id} onClick={(e) => handleCardClick(e, project)} sx={{ cursor: 'pointer' }}>
+                            <ProjectCard project={project} />
+                        </Box>
+                    ))}
+                </Stack>
+            </Box>
+        ));
+    };
+
     return (
 
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -77,11 +114,7 @@ export default function PortfolioWindow({
                 <PortfolioMetrics id={id} total_budget_eur={total_budget_eur} currency={currency} portfolioMetaData={portfolioMetaData} projectMetaData={projectMetaData} />
             </Box>
             <Stack spacing={2} sx={{ p: 1, borderBottom: "1px solid", borderColor: "divider", overflowY: "auto", flex: 1 }}>
-                {filteredPortfolio.map((project) => (
-                    <Box key={project.id} onClick={(e) => handleCardClick(e, project)} sx={{ cursor: 'pointer' }}>
-                        <ProjectCard project={project} />
-                    </Box>
-                ))}
+                {renderProjectList()}
             </Stack>
 
             <Menu

@@ -21,6 +21,7 @@ export default function App() {
   const [selectedHostInstitution, setSelectedHostInstitution] = useState<string>("all");
   const [selectedSubtopic, setSelectedSubtopic] = useState<string>("all");
   const [riskScoreRange, setRiskScoreRange] = useState<number[]>([0, 10]);
+  const [groupBy, setGroupBy] = useState<"none" | "institution" | "subtopic" | "risk">("none");
 
   useEffect(() => {
     if (!data) return;
@@ -87,6 +88,8 @@ export default function App() {
             setSelectedSubtopic={setSelectedSubtopic}
             riskScoreRange={riskScoreRange}
             setRiskScoreRange={setRiskScoreRange}
+            groupBy={groupBy}
+            setGroupBy={setGroupBy}
           />
         </Box>
 
@@ -100,6 +103,7 @@ export default function App() {
             selectedHostInstitution={selectedHostInstitution}
             selectedSubtopic={selectedSubtopic}
             riskScoreRange={riskScoreRange}
+            groupBy={groupBy}
           />
         </Box>
 
@@ -113,6 +117,7 @@ export default function App() {
             selectedHostInstitution={selectedHostInstitution}
             selectedSubtopic={selectedSubtopic}
             riskScoreRange={riskScoreRange}
+            groupBy={groupBy}
           />
         </Box>
         
