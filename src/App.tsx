@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import type { Project } from "./types.tsx";
 
-import useLoadData from "./components/loadData.tsx";
-import PortfolioWindow from "./components/portfolioWindow.tsx";
-import SelectionWindow from "./components/selectionWindow.tsx";
+import useLoadData from "./components/loadData";
+import PortfolioWindow from "./components/portfolioWindow";
+import SelectionWindow from "./components/selectionWindow";
 
 const LEFT_PANE_WIDTH = "40%";
 const CENTER_PANE_WIDTH = "30%";
