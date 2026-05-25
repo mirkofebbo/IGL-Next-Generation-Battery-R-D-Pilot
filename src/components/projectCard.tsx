@@ -1,58 +1,38 @@
-import React, { useState } from 'react';
+import { Box, Card, CardContent, Typography } from '@mui/material';
+import type { Project } from '../types';
 
-interface ProjectCardProps {
-  title?: string;
-  description?: string;
-}
-
-export default function ProjectCard({ 
-  title = "Next-Generation Battery Pilot", 
-  description = "Exploring innovative R&D methodologies for advanced battery technologies, focusing on sustainability and efficiency." 
-}: ProjectCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
+export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <div 
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        width: '100%',
-        maxWidth: '350px',
-        minHeight: isHovered ? '160px' : '70px',
-        padding: '24px',
-        borderRadius: '16px',
-        backgroundColor: '#ffffff',
-        boxShadow: isHovered ? '0 12px 24px rgba(0,0,0,0.1)' : '0 4px 12px rgba(0,0,0,0.05)',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    <Card
+      variant="elevation"
+      sx={{
+        width: "100%",
+        flexShrink: 0,
+        minHeight: 100, 
         cursor: 'pointer',
-        border: '1px solid #f0f0f0',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
+        '& .project-description': {
+          maxHeight: 0,
+          opacity: 0,
+          transform: 'translateY(-8px)',
+          transition: 'max-height 220ms ease, opacity 180ms ease, transform 180ms ease',
+          overflow: 'hidden',
+        },
+        '&:hover .project-description': {
+          maxHeight: 200,
+          opacity: 1,
+          transform: 'translateY(0)',
+        },
       }}
     >
-      <h3 style={{ 
-        margin: 0, 
-        fontSize: '1.25rem', 
-        fontWeight: 600,
-        color: '#1a1a1a',
-      }}>
-        {title}
-      </h3>
-      
-      <div style={{
-        opacity: isHovered ? 1 : 0,
-        transform: isHovered ? 'translateY(0)' : 'translateY(-10px)',
-        maxHeight: isHovered ? '200px' : '0px',
-        marginTop: isHovered ? '12px' : '0px',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        overflow: 'hidden',
-        color: '#525252',
-        lineHeight: '1.6',
-        fontSize: '0.95rem'
-      }}>
-        <p style={{ margin: 0 }}>{description}</p>
-      </div>
-    </div>
+      <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 } }}>
+        <Typography variant="h6" sx={{ color: 'secondary.main', lineHeight: 1.3 }}>
+          {project.title}
+        </Typography>
+        <Typography className="project-description" variant="body2" color="text.secondary" sx={{ mt: 1.25 }}>
+          {project.description}
+        </Typography>
+      </CardContent>
+    </Card>
+
   );
 }
