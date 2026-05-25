@@ -1,13 +1,9 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import type { Project } from '../types';
+import { getRiskColor } from './utils';
 
 export default function ProjectCard({ project }: { project: Project }) {
-    const getRiskColor = (score: number) => {
-        if (score <= 4) return 'success.main';
-        if (score > 4 && score <= 7) return 'warning.main';
-        if (score > 7) return 'error.main';
-        return 'error.main';
-    };
+
 
     const riskColor = getRiskColor(project.risk_score);
 
