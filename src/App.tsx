@@ -21,50 +21,44 @@ export default function App() {
   useEffect(() => {
     if (!data) return;
 
-    const restorePortfolio = (storageKey: string): Project[] | null => {
+    const restorePortfolio = (storageKey: string): Project[] => {
       const storedValue = localStorage.getItem(storageKey);
-      if (!storedValue) return null;
+      if (!storedValue) return [];
 
       try {
-        const ids = JSON.parse(storedValue) as number[];
-        if (!Array.isArray(ids)) return null;
+        const ids = JSON.parse(storedValue) as string[];
+        if (!Array.isArray(ids)) return [];
 
         const restoredProjects = ids
           .map((id) => data.projects.find((project) => project.id === id))
           .filter((project): project is Project => Boolean(project));
 
-        return restoredProjects.length > 0 ? restoredProjects : null;
+        return restoredProjects;
       } catch {
-        return null;
+        return [];
       }
     };
 
-    setPortfolio1(restorePortfolio(PORTFOLIO_1_STORAGE_KEY));
-    setPortfolio2(restorePortfolio(PORTFOLIO_2_STORAGE_KEY));
+    setPortfolio1(prev => prev === null ? restorePortfolio(PORTFOLIO_1_STORAGE_KEY) : prev);
+    setPortfolio2(prev => prev === null ? restorePortfolio(PORTFOLIO_2_STORAGE_KEY) : prev);
   }, [data]);
 
   useEffect(() => {
-    if (portfolio1) {
+    if (portfolio1 !== null) {
       localStorage.setItem(
         PORTFOLIO_1_STORAGE_KEY,
         JSON.stringify(portfolio1.map((project) => project.id)),
       );
-      return;
     }
-
-    localStorage.removeItem(PORTFOLIO_1_STORAGE_KEY);
   }, [portfolio1]);
 
   useEffect(() => {
-    if (portfolio2) {
+    if (portfolio2 !== null) {
       localStorage.setItem(
         PORTFOLIO_2_STORAGE_KEY,
         JSON.stringify(portfolio2.map((project) => project.id)),
       );
-      return;
     }
-
-    localStorage.removeItem(PORTFOLIO_2_STORAGE_KEY);
   }, [portfolio2]);
   // Handle loading and error states
   if (loading) return <Box sx={{ p: 2 }}>Loading projects...</Box>;

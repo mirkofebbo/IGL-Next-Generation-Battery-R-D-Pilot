@@ -3,7 +3,7 @@ import type { Project } from "../types";
 
 export default function PortfolioWindow({ id, currency, total_budget_eur, portfolio }: { id: string, currency: string, total_budget_eur: number, portfolio: Project[] | null }) {
 
-    if (!portfolio) {
+    if (!portfolio || portfolio.length === 0) {
         return (
             <Box sx={{ display: "flex", flexDirection: "column", height: "100%", p: 2 }}>
                 <Box>
