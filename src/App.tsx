@@ -13,7 +13,6 @@ const RIGHT_PANE_WIDTH = "30%";
 export default function App() {
   const { data, error, loading } = useLoadData();  // Loading the project.json fil;e
   
-  const [selectedProject, setSelectedProject] = useState<Project[] | null>(null);
   const [portfolio1, setPortfolio1] = useState<Project[] | null>(null);
   const [portfolio2, setPortfolio2] = useState<Project[] | null>(null);
 
@@ -30,16 +29,15 @@ export default function App() {
       <Box sx={{ display: "flex", flexDirection: "row", height: "100vh", width: "100vw" }}>
 
         <Box sx={{ width: LEFT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", margin: 1, borderRadius: 2 }}>
-          <SelectionWindow />
+          <SelectionWindow setPortfolio1={setPortfolio1} setPortfolio2={setPortfolio2} />
         </Box>
 
         <Box sx={{ width: CENTER_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", margin: 1, borderRadius: 2 }}>
-          <PortfolioWindow />
-
+          <PortfolioWindow portfolio={portfolio1} id="portfolio1"/> 
         </Box>
 
         <Box sx={{ width: RIGHT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", margin: 1, borderRadius: 2 }}>
-          <PortfolioWindow />
+          <PortfolioWindow portfolio={portfolio2} id="portfolio2" />
 
         </Box>
       </Box>
