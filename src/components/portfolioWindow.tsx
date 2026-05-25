@@ -1,7 +1,9 @@
-import { Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, Stack, Menu, MenuItem } from "@mui/material";
 import type { Project } from "../types";
+import ProjectCard from "./projectCard";
 
-export default function PortfolioWindow({ id, currency, total_budget_eur, portfolio }: { id: string, currency: string, total_budget_eur: number, portfolio: Project[] | null }) {
+export default function PortfolioWindow({ id, currency, total_budget_eur, portfolio, setPortfolio }: { id: string, currency: string, total_budget_eur: number, portfolio: Project[] | null, setPortfolio: React.Dispatch<React.SetStateAction<Project[] | null>> }) {
 
     if (!portfolio || portfolio.length === 0) {
         return (
@@ -22,26 +24,53 @@ export default function PortfolioWindow({ id, currency, total_budget_eur, portfo
             </Box>
         );
     }
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [activeProject, setActiveProject] = useState<Project | null>(null);
+
+    const handleCardClick = (event: React.MouseEvent<HTMLElement>, project: Project) => {
+        setAnchorEl(event.currentTarget);
+        setActiveProject(project);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+        setActiveProject(null);
+    };
+
+    const handleRemove = () => {
+        if (activeProject) {
+            setPortfolio(prev => {
+                if (!prev) return null;
+                return prev.filter(p => p.id !== activeProject.id);
+            });
+        }
+        handleMenuClose();
+    };
+
     return (
+        
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
             <Box sx={{ p: 2, borderBottom: "1px solid", borderColor: "divider" }}>
                 <Typography variant="h2" sx={{ width: "100%" }}>
                     {id}
                 </Typography>
             </Box>
-            <Box sx={{ overflowY: "auto", flex: 1 }}>
+            <Stack spacing={2} sx={{ p: 1, borderBottom: "1px solid", borderColor: "divider", overflowY: "auto", flex: 1 }}>
                 {portfolio.map((project) => (
-                    <Box key={project.id} sx={{ p: 2, borderBottom: "1px solid", borderColor: "divider" }}>
-                        <Typography variant="h3">{project.id}</Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            {project.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            {project.description}
-                        </Typography>
+                    <Box key={project.id} onClick={(e) => handleCardClick(e, project)} sx={{ cursor: 'pointer' }}>
+                        <ProjectCard project={project} />
                     </Box>
                 ))}
-            </Box>
+            </Stack>
+
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+            >
+                <MenuItem onClick={handleRemove} sx={{ color: 'error.main' }}>Remove from Portfolio</MenuItem>
+            </Menu>
         </Box>
     );
 }

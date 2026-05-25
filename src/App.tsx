@@ -77,11 +77,11 @@ export default function App() {
         </Box>
 
         <Box sx={{ width: CENTER_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
-          <PortfolioWindow id="Portfolio A" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio1} />
+          <PortfolioWindow id="Portfolio A" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio1} setPortfolio={setPortfolio1} />
         </Box>
 
         <Box sx={{ width: RIGHT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
-          <PortfolioWindow id="Portfolio B" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio2} />
+          <PortfolioWindow id="Portfolio B" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio2} setPortfolio={setPortfolio2} />
         </Box>
         
       </Box>
