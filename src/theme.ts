@@ -78,6 +78,28 @@ const theme = createTheme({
       fontWeight: 400,
     },
   },
+  components: {
+    MuiCard: {
+      variants: [
+        {
+          props: { variant:'elevation' },
+          style: {
+            width: '100%',
+            borderRadius: 16,
+            border: `1px solid ${brandColors.aqua}`,
+            background: `linear-gradient(180deg, ${brandColors.white} 0%, #f7fbff 100%)`,
+            boxShadow: '0 8px 20px rgba(15, 41, 74, 0.08)',
+            transition: 'transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease',
+            '&:hover': {
+              transform: 'translateY(-2px)',
+              borderColor: brandColors.blue,
+              boxShadow: '0 12px 26px rgba(15, 41, 74, 0.14)',
+            },
+          },
+        },
+      ],
+    },
+  },
 });
 
 export default theme;
