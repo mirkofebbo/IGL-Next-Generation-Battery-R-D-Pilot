@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Box, FormControl, InputLabel, MenuItem, Select, Slider, Stack, Typography, Menu } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Slider, Stack, Typography, Menu } from "@mui/material";
 import type { Project, ProjectMetaData } from "../types";
 import { getProjectMetaData } from "./utils";
 import ProjectCard from "./projectCard";
@@ -46,6 +46,13 @@ export default function SelectionWindow({
             });
         }
         handleMenuClose();
+    };
+
+    const handleResetFilters = () => {
+        setSelectedHostInstitution("all");
+        setSelectedSubtopic("all");
+        setRiskScoreRange([0, 10]);
+        setGroupBy("none");
     };
 
     // Filter projects based on selected criteria
@@ -184,26 +191,30 @@ export default function SelectionWindow({
                     </Select>
                 </FormControl>
 
-                {/* Risk Score Slider */}
-                <Box>
-                    <Typography gutterBottom>
-                        Risk Score Range: {riskScoreRange[0]} - {riskScoreRange[1]}
-                    </Typography>
-                    <Box sx={{ px: 1 }}>
-                        <Slider
-                            value={riskScoreRange}
-                            min={0}
-                            max={10}
-                            step={1}
-                            valueLabelDisplay="auto"
-                            onChange={(_, newValue) => {
-                                if (Array.isArray(newValue)) {
-                                    setRiskScoreRange(newValue as number[]);
-                                }
-                            }}
-                        />
+                {/* Risk Score Slider and Reset */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Box sx={{ flex: 1 }}>
+                        <Typography gutterBottom>
+                            Risk Score Range: {riskScoreRange[0]} - {riskScoreRange[1]}
+                        </Typography>
+                        <Box sx={{ px: 1 }}>
+                            <Slider
+                                value={riskScoreRange}
+                                min={0}
+                                max={10}
+                                step={1}
+                                valueLabelDisplay="auto"
+                                onChange={(_, newValue) => {
+                                    if (Array.isArray(newValue)) {
+                                        setRiskScoreRange(newValue as number[]);
+                                    }
+                                }}
+                            />
+                        </Box>
                     </Box>
-
+                    <Button variant="outlined" color="primary" onClick={handleResetFilters}>
+                        Reset Filters
+                    </Button>
                 </Box>
             </Stack >
             {/* Project List */}
