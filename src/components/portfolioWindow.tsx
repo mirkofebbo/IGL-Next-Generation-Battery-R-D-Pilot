@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Typography, Stack, Menu, MenuItem } from "@mui/material";
 import type { Project } from "../types";
 import ProjectCard from "./projectCard";
+import { getPortfolioMetaData } from "./utils";
 
 export default function PortfolioWindow({ id, currency, total_budget_eur, portfolio, setPortfolio }: { id: string, currency: string, total_budget_eur: number, portfolio: Project[] | null, setPortfolio: React.Dispatch<React.SetStateAction<Project[] | null>> }) {
 
@@ -27,6 +28,7 @@ export default function PortfolioWindow({ id, currency, total_budget_eur, portfo
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [activeProject, setActiveProject] = useState<Project | null>(null);
+    const portfolioMetaData = getPortfolioMetaData(portfolio);
 
     const handleCardClick = (event: React.MouseEvent<HTMLElement>, project: Project) => {
         setAnchorEl(event.currentTarget);
@@ -49,7 +51,7 @@ export default function PortfolioWindow({ id, currency, total_budget_eur, portfo
     };
 
     return (
-        
+
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
             <Box sx={{ p: 2, borderBottom: "1px solid", borderColor: "divider" }}>
                 <Typography variant="h2" sx={{ width: "100%" }}>
