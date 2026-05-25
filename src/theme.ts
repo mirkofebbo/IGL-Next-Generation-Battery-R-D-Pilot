@@ -56,7 +56,7 @@ const theme = createTheme({
   typography: {
     // Optional: The guidelines use a clean sans-serif. 
     // You can set your custom font family here if you have one.
-    fontFamily: '"Inter", "Helvetica", "Arial", sans-serif', 
+    fontFamily: '"Averta-Regular", "Helvetica", "Arial", sans-serif', 
     h1: {
       fontSize: '2.5rem',
       fontWeight: 700,
@@ -69,6 +69,18 @@ const theme = createTheme({
       fontSize: '1.75rem',
       fontWeight: 700,
     },
+    h4: {
+      fontSize: '1.5rem',
+      fontWeight: 700,
+    },
+    h5: {
+      fontSize: '1.25rem',
+      fontWeight: 700,  
+    },
+    h6: {
+      fontSize: '0.95rem',
+      fontWeight: 700,
+    },  
     body1: {
       fontSize: '1rem',
       fontWeight: 400,
