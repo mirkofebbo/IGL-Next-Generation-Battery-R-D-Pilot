@@ -22,6 +22,7 @@ export default function SelectionWindow({
 }) {
     const metaData: ProjectMetaData = getProjectMetaData(data);
 
+    const [groupBy, setGroupBy] = useState<"none" | "institution" | "subtopic" | "risk">("none");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [activeProject, setActiveProject] = useState<Project | null>(null);
 
@@ -77,6 +78,42 @@ export default function SelectionWindow({
         return Array.from(new Set(filtered.map(p => p.subtopic))).sort((a, b) => a.localeCompare(b));
     }, [data, selectedHostInstitution, riskScoreRange]);
 
+    const renderProjectList = () => {
+        if (groupBy === "none" || groupBy === "risk") {
+            const projectsToRender = [...filteredProjects];
+            if (groupBy === "risk") {
+                projectsToRender.sort((a, b) => b.risk_score - a.risk_score);
+            }
+            return projectsToRender.map((project) => (
+                <Box key={project.id} onClick={(e) => handleCardClick(e, project)} sx={{ cursor: 'pointer' }}>
+                    <ProjectCard project={project} />
+                </Box>
+            ));
+        }
+
+        const groups: Record<string, Project[]> = {};
+        for (const project of filteredProjects) {
+            const key = groupBy === "institution" ? project.host_institution : project.subtopic;
+            if (!groups[key]) groups[key] = [];
+            groups[key].push(project);
+        }
+
+        return Object.keys(groups).sort().map((groupKey) => (
+            <Box key={groupKey} sx={{ mb: 2 }}>
+                <Typography variant="h6" sx={{ mb: 1, color: "text.primary", fontWeight: 'bold' }}>
+                    {groupKey} ({groups[groupKey].length})
+                </Typography>
+                <Stack spacing={2}>
+                    {groups[groupKey].map((project) => (
+                        <Box key={project.id} onClick={(e) => handleCardClick(e, project)} sx={{ cursor: 'pointer' }}>
+                            <ProjectCard project={project} />
+                        </Box>
+                    ))}
+                </Stack>
+            </Box>
+        ));
+    };
+
     // Render the selection window with filters and project cards
     return (
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -131,6 +168,22 @@ export default function SelectionWindow({
                     </Select>
                 </FormControl>
 
+                {/* Group / Sort By Dropdown */}
+                <FormControl fullWidth size="small">
+                    <InputLabel id="group-by-select-label">Group / Sort By</InputLabel>
+                    <Select<string>
+                        labelId="group-by-select-label"
+                        value={groupBy}
+                        label="Group / Sort By"
+                        onChange={(event) => setGroupBy(event.target.value as any)}
+                    >
+                        <MenuItem value="none">None</MenuItem>
+                        <MenuItem value="institution">Group by Institution</MenuItem>
+                        <MenuItem value="subtopic">Group by Subtopic</MenuItem>
+                        <MenuItem value="risk">Order by Risk (High to Low)</MenuItem>
+                    </Select>
+                </FormControl>
+
                 {/* Risk Score Slider */}
                 <Box>
                     <Typography gutterBottom>
@@ -155,11 +208,7 @@ export default function SelectionWindow({
             </Stack >
             {/* Project List */}
             <Stack spacing={2} sx={{ p: 1, width: "100%", overflowY: "auto" }}>
-                {filteredProjects.map((project) => (
-                    <Box key={project.id} onClick={(e) => handleCardClick(e, project)}>
-                        <ProjectCard project={project} />
-                    </Box>
-                ))}
+                {renderProjectList()}
             </Stack>
 
             {/* Context Menu for Adding to Portfolio */}
