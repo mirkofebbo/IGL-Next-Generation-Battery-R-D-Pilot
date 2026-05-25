@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Box, Typography, Stack, Menu, MenuItem } from "@mui/material";
 import type { Project } from "../types";
 import ProjectCard from "./projectCard";
-import { getPortfolioMetaData, getRiskColor } from "./utils";
+import { getPortfolioMetaData, getProjectMetaData } from "./utils";
+import PortfolioMetrics from "./portfolioMetrics";
 
 export default function PortfolioWindow({ id, currency, total_budget_eur, portfolio, setPortfolio }: { id: string, currency: string, total_budget_eur: number, portfolio: Project[] | null, setPortfolio: React.Dispatch<React.SetStateAction<Project[] | null>> }) {
 
@@ -29,8 +30,7 @@ export default function PortfolioWindow({ id, currency, total_budget_eur, portfo
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [activeProject, setActiveProject] = useState<Project | null>(null);
     const portfolioMetaData = getPortfolioMetaData(portfolio);
-    const riskColor = getRiskColor(portfolioMetaData.average_risk_score);
-
+    const projectMetaData = getProjectMetaData(portfolio); // Not used in current implementation, but can be calculated similarly to portfolioMetaData if needed
     const handleCardClick = (event: React.MouseEvent<HTMLElement>, project: Project) => {
         setAnchorEl(event.currentTarget);
         setActiveProject(project);
@@ -54,38 +54,8 @@ export default function PortfolioWindow({ id, currency, total_budget_eur, portfo
     return (
 
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-            <Box sx={{ p: 2, borderBottom: "1px solid", borderColor: "divider", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <Typography variant="h2">
-                    {id}
-                </Typography>
-                <Box
-                    sx={{
-                        px: 1,
-                        py: 0.25,
-                        borderRadius: 1,
-                        fontSize: '0.75rem',
-                        fontWeight: 'bold',
-                    }}
-                >
-                    <Box
-                        sx={{
-                            bgcolor: riskColor,
-                            color: 'white',
-                            px: 1,
-                            py: 0.25,
-                            borderRadius: 1,
-                            fontSize: '0.75rem',
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        <Typography variant="body1">
-                            Risk: {portfolioMetaData.average_risk_score}
-                        </Typography>
-                    </Box>
-                    <Typography variant="body2">
-                        Budget Left: {(total_budget_eur-portfolioMetaData.total_budget_eur)/1000000}M {currency}
-                    </Typography>
-                </Box>
+            <Box >
+                <PortfolioMetrics id={id} total_budget_eur={total_budget_eur} currency={currency} portfolioMetaData={portfolioMetaData} projectMetaData={projectMetaData} />
             </Box>
             <Stack spacing={2} sx={{ p: 1, borderBottom: "1px solid", borderColor: "divider", overflowY: "auto", flex: 1 }}>
                 {portfolio.map((project) => (

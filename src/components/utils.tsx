@@ -25,7 +25,7 @@ export function getPortfolioMetaData(project: Project[]): PortfolioMetaData {
     };
 }
 
-export function getMetaData(project: Project[]): ProjectMetaData {
+export function getProjectMetaData(project: Project[]): ProjectMetaData {
     const total_projects = project.length;
     const unique_subtopics = new Set(project.flatMap(p => p.subtopic)).size;
     const unique_host_institutions = new Set(project.flatMap(p => p.host_institution)).size;

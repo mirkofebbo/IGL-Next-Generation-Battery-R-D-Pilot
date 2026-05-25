@@ -1,14 +1,10 @@
 import { useMemo, useState } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, Slider, Stack, Typography } from "@mui/material";
 import type { Project, ProjectMetaData } from "../types";
-import { getMetaData } from "./utils";
+import { getProjectMetaData } from "./utils";
 
-type FilteredProjectsProps = {
-    data: Project[];
-};
-
-export default function FilteredProjects({ data }: FilteredProjectsProps) {
-    const metaData: ProjectMetaData = getMetaData(data);
+export default function FilteredProjects({ data }: { data: Project[] }) {
+    const metaData: ProjectMetaData = getProjectMetaData(data);
 
     const [selectedHostInstitution, setSelectedHostInstitution] = useState<string>("all");
     const [selectedSubtopic, setSelectedSubtopic] = useState<string>("all");
