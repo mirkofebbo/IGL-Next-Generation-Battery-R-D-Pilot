@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import type { Project } from "../types";
+import type {  Project } from "../types";
 
-export default function PortfolioWindow({ portfolio, id }: { portfolio: Project[] | null, id: string }) {
+export default function PortfolioWindow({ id, currency, total_budget_eur, portfolio }: { id: string, currency: string, total_budget_eur: number, portfolio: Project[] | null }) {
 
     if (!portfolio) {
         return (
