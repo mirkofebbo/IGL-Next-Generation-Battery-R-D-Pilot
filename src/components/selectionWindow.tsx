@@ -4,11 +4,23 @@ import type { Project, ProjectMetaData } from "../types";
 import { getProjectMetaData } from "./utils";
 import ProjectCard from "./projectCard";
 
-export default function SelectionWindow({ data, setPortfolio1, setPortfolio2 }: { data: Project[], setPortfolio1: React.Dispatch<React.SetStateAction<Project[] | null>>, setPortfolio2: React.Dispatch<React.SetStateAction<Project[] | null>> }) {
+export default function SelectionWindow({ 
+    data, setPortfolio1, setPortfolio2,
+    selectedHostInstitution, setSelectedHostInstitution,
+    selectedSubtopic, setSelectedSubtopic,
+    riskScoreRange, setRiskScoreRange
+}: { 
+    data: Project[], 
+    setPortfolio1: React.Dispatch<React.SetStateAction<Project[] | null>>, 
+    setPortfolio2: React.Dispatch<React.SetStateAction<Project[] | null>>,
+    selectedHostInstitution: string,
+    setSelectedHostInstitution: React.Dispatch<React.SetStateAction<string>>,
+    selectedSubtopic: string,
+    setSelectedSubtopic: React.Dispatch<React.SetStateAction<string>>,
+    riskScoreRange: number[],
+    setRiskScoreRange: React.Dispatch<React.SetStateAction<number[]>>
+}) {
     const metaData: ProjectMetaData = getProjectMetaData(data);
-    const [selectedHostInstitution, setSelectedHostInstitution] = useState<string>("all");
-    const [selectedSubtopic, setSelectedSubtopic] = useState<string>("all");
-    const [riskScoreRange, setRiskScoreRange] = useState<number[]>([0, 10]);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [activeProject, setActiveProject] = useState<Project | null>(null);

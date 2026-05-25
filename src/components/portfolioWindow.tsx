@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Box, Typography, Stack, Menu, MenuItem } from "@mui/material";
 import type { Project } from "../types";
 import ProjectCard from "./projectCard";
 import { getPortfolioMetaData, getProjectMetaData } from "./utils";
 import PortfolioMetrics from "./portfolioMetrics";
 
-export default function PortfolioWindow({ id, currency, total_budget_eur, portfolio, setPortfolio }: { id: string, currency: string, total_budget_eur: number, portfolio: Project[] | null, setPortfolio: React.Dispatch<React.SetStateAction<Project[] | null>> }) {
+export default function PortfolioWindow({ 
+    id, currency, total_budget_eur, portfolio, setPortfolio,
+    selectedHostInstitution, selectedSubtopic, riskScoreRange 
+}: { 
+    id: string, currency: string, total_budget_eur: number, 
+    portfolio: Project[] | null, setPortfolio: React.Dispatch<React.SetStateAction<Project[] | null>>,
+    selectedHostInstitution: string, selectedSubtopic: string, riskScoreRange: number[]
+}) {
 
     if (!portfolio || portfolio.length === 0) {
         return (
@@ -51,6 +58,18 @@ export default function PortfolioWindow({ id, currency, total_budget_eur, portfo
         handleMenuClose();
     };
 
+    const filteredPortfolio = useMemo(() => {
+        return portfolio.filter((project) => {
+            const matchesHostInstitution =
+                selectedHostInstitution === "all" || project.host_institution === selectedHostInstitution;
+            const matchesSubtopic = selectedSubtopic === "all" || project.subtopic === selectedSubtopic;
+            const matchesRiskScore =
+                project.risk_score >= riskScoreRange[0] && project.risk_score <= riskScoreRange[1];
+
+            return matchesHostInstitution && matchesSubtopic && matchesRiskScore;
+        });
+    }, [portfolio, riskScoreRange, selectedHostInstitution, selectedSubtopic]);
+
     return (
 
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -58,7 +77,7 @@ export default function PortfolioWindow({ id, currency, total_budget_eur, portfo
                 <PortfolioMetrics id={id} total_budget_eur={total_budget_eur} currency={currency} portfolioMetaData={portfolioMetaData} projectMetaData={projectMetaData} />
             </Box>
             <Stack spacing={2} sx={{ p: 1, borderBottom: "1px solid", borderColor: "divider", overflowY: "auto", flex: 1 }}>
-                {portfolio.map((project) => (
+                {filteredPortfolio.map((project) => (
                     <Box key={project.id} onClick={(e) => handleCardClick(e, project)} sx={{ cursor: 'pointer' }}>
                         <ProjectCard project={project} />
                     </Box>

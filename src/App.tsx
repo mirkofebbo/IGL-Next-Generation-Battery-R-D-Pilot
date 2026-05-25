@@ -18,6 +18,10 @@ export default function App() {
   const [portfolio1, setPortfolio1] = useState<Project[] | null>(null);
   const [portfolio2, setPortfolio2] = useState<Project[] | null>(null);
 
+  const [selectedHostInstitution, setSelectedHostInstitution] = useState<string>("all");
+  const [selectedSubtopic, setSelectedSubtopic] = useState<string>("all");
+  const [riskScoreRange, setRiskScoreRange] = useState<number[]>([0, 10]);
+
   useEffect(() => {
     if (!data) return;
 
@@ -73,15 +77,43 @@ export default function App() {
       <Box sx={{ display: "flex", flexDirection: "row", height: "100vh", width: "100vw", overflow: "hidden", p: 1, gap: 1, boxSizing: "border-box" }}>
 
         <Box sx={{ width: LEFT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
-          <SelectionWindow data={data.projects} setPortfolio1={setPortfolio1} setPortfolio2={setPortfolio2} />
+          <SelectionWindow 
+            data={data.projects} 
+            setPortfolio1={setPortfolio1} 
+            setPortfolio2={setPortfolio2} 
+            selectedHostInstitution={selectedHostInstitution}
+            setSelectedHostInstitution={setSelectedHostInstitution}
+            selectedSubtopic={selectedSubtopic}
+            setSelectedSubtopic={setSelectedSubtopic}
+            riskScoreRange={riskScoreRange}
+            setRiskScoreRange={setRiskScoreRange}
+          />
         </Box>
 
         <Box sx={{ width: CENTER_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
-          <PortfolioWindow id="Portfolio A" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio1} setPortfolio={setPortfolio1} />
+          <PortfolioWindow 
+            id="Portfolio A" 
+            currency={data.currency} 
+            total_budget_eur={data.total_budget_eur} 
+            portfolio={portfolio1} 
+            setPortfolio={setPortfolio1} 
+            selectedHostInstitution={selectedHostInstitution}
+            selectedSubtopic={selectedSubtopic}
+            riskScoreRange={riskScoreRange}
+          />
         </Box>
 
         <Box sx={{ width: RIGHT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
-          <PortfolioWindow id="Portfolio B" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio2} setPortfolio={setPortfolio2} />
+          <PortfolioWindow 
+            id="Portfolio B" 
+            currency={data.currency} 
+            total_budget_eur={data.total_budget_eur} 
+            portfolio={portfolio2} 
+            setPortfolio={setPortfolio2} 
+            selectedHostInstitution={selectedHostInstitution}
+            selectedSubtopic={selectedSubtopic}
+            riskScoreRange={riskScoreRange}
+          />
         </Box>
         
       </Box>
