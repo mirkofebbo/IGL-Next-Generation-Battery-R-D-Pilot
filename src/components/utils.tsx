@@ -2,10 +2,10 @@ import type { Project, ProjectMetaData, PortfolioMetaData } from "../types.tsx";
 
 export function getPortfolioMetaData(project: Project[]): PortfolioMetaData {
 
-    const average_risk_score = project.reduce((sum, p) => sum + p.risk_score, 0) / project.length;
-    const average_peer_review_score = project.reduce((sum, p) => sum + p.peer_review_score, 0) / project.length;
+    const average_risk_score = Math.round(project.reduce((sum, p) => sum + p.risk_score, 0) / project.length * 100) / 100;
+    const average_peer_review_score = Math.round(project.reduce((sum, p) => sum + p.peer_review_score, 0) / project.length * 100) / 100;
     const total_budget_eur = project.reduce((sum, p) => sum + p.budget_eur, 0);
-    const average_duration_months = project.reduce((sum, p) => sum + p.duration_months, 0) / project.length;
+    const average_duration_months = Math.round(project.reduce((sum, p) => sum + p.duration_months, 0) / project.length * 100) / 100;
 
     const distribution_of_subtopics: { [subtopic: string]: number } = {};
     const distribution_of_host_institutions: { [institution: string]: number } = {};
@@ -41,6 +41,16 @@ export function getMetaData(project: Project[]): ProjectMetaData {
         list_of_unique_host_institutions
     };
 }
+
+export function filterProjectsByCriteria(projects: Project[], selectedHostInstitution: string, selectedSubtopic: string, riskScoreRange: number[]): Project[] {
+    return projects.filter(project => {
+        const matchesHostInstitution = selectedHostInstitution ? project.host_institution === selectedHostInstitution : true;
+        const matchesSubtopic = selectedSubtopic ? project.subtopic === selectedSubtopic : true;
+        const matchesRiskScore = project.risk_score >= riskScoreRange[0] && project.risk_score <= riskScoreRange[1];
+        return matchesHostInstitution && matchesSubtopic && matchesRiskScore;
+    });
+}
+
 export function getRiskColor(score: number) {
     if (score <= 4) return 'success.main';
     if (score > 4 && score <= 7) return 'warning.main';
