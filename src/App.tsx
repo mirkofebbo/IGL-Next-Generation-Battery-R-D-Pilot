@@ -73,20 +73,20 @@ export default function App() {
 
   return (
     <>
-      <Typography variant="h4" sx={{ width: "100%" }}>
+      {/* <Typography variant="h4" sx={{ width: "100%" }}>
         {data.programme}
-      </Typography>
-      <Box sx={{ display: "flex", flexDirection: "row", height: "100vh", width: "100vw" }}>
+      </Typography> */}
+      <Box sx={{ display: "flex", flexDirection: "row", height: "100vh", width: "100vw", overflow: "hidden", p: 1, gap: 1, boxSizing: "border-box" }}>
 
-        <Box sx={{ width: LEFT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", margin: 1, borderRadius: 2 }}>
+        <Box sx={{ width: LEFT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
           <SelectionWindow data={data.projects} setPortfolio1={setPortfolio1} setPortfolio2={setPortfolio2} />
         </Box>
 
-        <Box sx={{ width: CENTER_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", margin: 1, borderRadius: 2 }}>
+        <Box sx={{ width: CENTER_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
           <PortfolioWindow id="Portfolio A" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio1} />
         </Box>
 
-        <Box sx={{ width: RIGHT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", margin: 1, borderRadius: 2 }}>
+        <Box sx={{ width: RIGHT_PANE_WIDTH, height: "100%", border: "1px solid", borderColor: "primary.light", borderRadius: 2, overflow: "hidden" }}>
           <PortfolioWindow id="Portfolio B" currency={data.currency} total_budget_eur={data.total_budget_eur} portfolio={portfolio2} />
         </Box>
         
