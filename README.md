@@ -3,6 +3,7 @@
 ## Overview
 
 This project is a React-based interactive portfolio dashboard designed to manage, filter, and allocate Battery R&D projects. It provides a visual interface for exploring a dataset of research projects, filtering them dynamically, and comparing custom project portfolios.
+[Demo Video](https://youtu.be/zoU577vm6GY)
 
 ## Features
 
