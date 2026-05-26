@@ -6,10 +6,10 @@ This project is a React-based interactive portfolio dashboard designed to manage
 
 ## Features
 
-- **Interactive Dynamic Filtering:** Sift through the "Universe of Projects" by Subtopic, Host Institution, and Risk Score. Dropdown menus intelligently update their available options based on your current selections to prevent dead ends.
+- **Interactive Dynamic Filtering:** Sift through the "Universe of Projects" by Subtopic, Host Institution, and Risk Score. Dropdown menus update their available options based on the user selections.
 - **Side-by-Side Portfolio Comparison:** Allows you to create and compare two active portfolios (Portfolio A and Portfolio B).
-- **Persistent Storage:** Portfolios are continuously synced to `localStorage`, so your project allocations persist between page reloads.
-- **Responsive Layout:** A fixed 100vh/vw 3-column layout built with Material UI mapping, which ensures seamless scrollable interactions within individual panes without overall window scroll.
+- **Persistent Storage:** Portfolios are continuously synced to `localStorage`, so user project allocations persist between page reloads.
+- **Responsive Layout:** A fixed 100vh/vw 3-column layout built with Material UI mapping.
 - **Dynamic Project Cards:** Detailed data presentation using Material UI cards with responsive hover information.
 
 ## Tech Stack
